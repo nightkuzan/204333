@@ -46,8 +46,9 @@ body {
     text-indent: 10px;
 }
 
-#container-data .my-profile .section .fmo .list {
+#container-data .my-profile .section .fmo .list ul li {
     text-indent: 10px;
+    list-style-type: none;
 }
 
 .section {
