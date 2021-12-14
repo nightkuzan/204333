@@ -1,0 +1,10 @@
+{
+    "watch": ["basic-express"],
+    "execMap": {
+        "ts": "ts-node",
+        "js": "node"
+    },
+    "ignore": [
+        "node_modules/**/node_modules"
+    ]
+}

@@ -1,0 +1,62 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: white;
+}
+
+.img {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 70vh;
+}
+
+.img img {
+    display: block;
+    height: 300px;
+}
+
+.btn-group {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.btn {
+    width: 150px;
+    height: 50px;
+    margin: 10px;
+}
+
+.btn-red {
+    background-color: red;
+}
+
+.btn-yellow {
+    background-color: yellow;
+}
+
+.btn-green {
+    background-color: green;
+}
+
+.btn-black {
+    background-color: black;
+}
+
+.btn-silver {
+    background-color: silver;
+}
+
+.link {
+    text-align: center;
+    margin: 30px;
+}
+
+.link a {
+    color: orchid;
+    font-weight: bold;
+    font-size: 20pt;
+}

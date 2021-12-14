@@ -1,0 +1,71 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 12pt;
+    font-family: 'Montserrat', 'Kanit', 'Ubuntu', sans-serif;
+}
+
+.img-container {
+    display: flex;
+    padding: 50px;
+    width: 100%;
+    height: 75vh;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.img-container img {
+    /* width: 15%; */
+    height: 40%;
+    display: block;
+}
+
+.btn-block {
+    /* display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); */
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.btn {
+    width: 100px;
+    height: 50px;
+    color: white;
+    cursor: pointer;
+}
+
+.red {
+    background-color: #ff6347;
+}
+
+.yellow {
+    background-color: yellow;
+    color: black;
+}
+
+.green {
+    background-color: green;
+}
+
+.black {
+    background-color: black;
+}
+
+.silver {
+    background-color: silver;
+}
+
+.random {
+    margin-top: 20px;
+    text-align: center;
+}

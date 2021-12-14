@@ -72,6 +72,7 @@ body {
 
 .profess-skill {
     margin-top: 10px;
+    margin-left: 10px;
 }
 
 .outer {
@@ -184,6 +185,7 @@ body {
 table,
 th,
 td {
-    border: 2px solid white;
+    margin-top: 10px;
+    border: 2px solid violet;
     padding: 10px;
 }
