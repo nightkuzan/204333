@@ -1,0 +1,29 @@
+{
+    "teacher": [
+
+        {
+
+            "title": "อ. ดร.",
+
+            "firstName": "รัศมีทิพย์  ",
+
+            "lastName": " วิตา",
+
+            "subject": "Web Apllication"
+
+        },
+
+        {
+
+            "title": "ผู้ช่วยศาสตราจารย์ ดร.",
+
+            "firstName": "อารีรัตน์",
+
+            "lastName": "ตรงรัศมีทอง",
+
+            "subject": "Fundamental Database"
+
+        }
+
+    ]
+}
