@@ -1,9 +1,11 @@
 import logo from './logo.svg';
+import './../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import React, { Component } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Navbar';
+import NavLink from 'react-bootstrap/NavLink';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import NavItem from 'react-bootstrap/NavItem';
 import Form from 'react-bootstrap/Form';
@@ -22,8 +24,8 @@ function App() {
         style={{ maxHeight: '100px' }}
         navbarScroll
       >
-        <Nav.Link href="#action1">Home</Nav.Link>
-        <Nav.Link href="#action2">Link</Nav.Link>
+        <NavLink href="#action1">Home</NavLink>
+        <NavLink href="#action2">Link</NavLink>
         <NavDropdown title="Link" id="navbarScrollingDropdown">
           <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
           <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
@@ -32,9 +34,9 @@ function App() {
             Something else here
           </NavDropdown.Item>
         </NavDropdown>
-        <Nav.Link href="#" disabled>
+        <NavLink href="#" disabled>
           Link
-        </Nav.Link>
+        </NavLink>
       </Nav>
       <Form className="d-flex">
         <FormControl
