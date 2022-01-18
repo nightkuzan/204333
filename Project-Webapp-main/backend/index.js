@@ -18,24 +18,47 @@ const db = mysql.createConnection({
 })
 
 app.get('/carsparking', (req, res) => {
+    const FLOOR = 1;
+    const LOT_NO = 8;
+    let parkinglot_obj = {}
+    for (let i = 0; i < FLOOR; i++) 
+        for (let j = 0; j < LOT_NO; j++)
+            parkinglot_obj[`P${j+1}F${i+1}`] = {
+                "available": true,
+                "cartype": null
+            };        
+
+    
     db.query("SELECT * FROM carsparking", (err, result) => {
         if(err){
             console.log(err)
         } else{
-            res.send(result);
+            // res.send(result);
+            for (let i = 0; i < result.length; i++) {
+                parkinglot_obj[result[i].parkinglot] = {
+                    "available": false,
+                    "cartype": result[i].cartype
+                };
+            }
+            res.send(parkinglot_obj);
         }
     })
 });
 
 app.post('/create', (req, res) => {
+    let name = req.body.name;
     let email = req.body.email;
-    let fullname = req.body.fullname;
     let telephone = req.body.telephone;
-    let carType = req.body.carType;
+    let cartype = req.body.cartype;
     //let booking_status = req.booking_status;
-
-    db.query("INSERT INTO carsparking (email, fullname, telephone, type) VALUES(?,?,?,?)", 
-    [email, fullname, telephone, carType],
+    if (name == "" || email == "" || telephone == "" || cartype == "") {
+        res.send({
+            status: 'incompleted',
+            message: 'You have some fields unfilled.',
+        });
+    }
+    db.query("INSERT INTO carsparking (fullName, email,  telephone, type) VALUES(?,?,?,?)", 
+    [name,email,  telephone, cartype],
     (err, result) => {
         if(err){
             console.log(err)
@@ -47,9 +70,18 @@ app.post('/create', (req, res) => {
                 `Telephone: ${telephone}`,
                 `Car type: ${carType}`
             ].join('<br>'));*/
-            res.redirect("http://127.0.0.1:5501/parking.html")
+            // res.redirect("http://127.0.0.1:5501/parking.html")
+            res.send({
+                status: 'completed',
+                message: 'Your booking completed.',
+            });
         }
     });
+
+    // console.log(name);
+    // console.log(name);
+    // console.log(name);
+    // console.log(name);
 });
 
 app.put('/api/users/update', (req, res) => {

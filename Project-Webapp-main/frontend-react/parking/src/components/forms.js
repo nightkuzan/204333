@@ -2,14 +2,14 @@ import React from 'react';
 
 export const Form = ({ onSubmit }) => {
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} method="POST">
       <div className="form-group">
         <label htmlFor="name">Name</label>
-        <input className="form-control" id="name" />
+        <input required className="form-control" id="name" />
       </div>
       <div className="form-group">
         <label htmlFor="email">Email address</label>
-        <input
+        <input required
           type="email"
           className="form-control"
           id="email"
@@ -18,7 +18,7 @@ export const Form = ({ onSubmit }) => {
       </div>
       <div className="form-group">
         <label htmlFor="telephone">Telephone</label>
-      <input
+      <input required
             type="number"
             className="form-control"
             id="telephone"
@@ -27,13 +27,13 @@ export const Form = ({ onSubmit }) => {
         </div>
         <div className="form-group">
             <label htmlFor="cartype">Select CarType</label>
-            <select className="form-control" id="cartype">
-                <option value="1">Sedan</option>
-                <option value="2">Pickup</option>
-                <option value="3">CRV</option>
-                <option value="4">Van</option>
-                <option value="5">Sports Car</option>
-                <option value="6">Super Car</option>
+            <select required className="form-control" id="cartype">
+                <option value="Sedan">Sedan</option>
+                <option value="Pickup">Pickup</option>
+                <option value="CRV">CRV</option>
+                <option value="Van">Van</option>
+                <option value="Sports car">Sports Car</option>
+                <option value="Super car">Super Car</option>
             </select>
         </div>
       <div className="form-group">

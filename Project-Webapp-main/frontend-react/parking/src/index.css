@@ -12,14 +12,15 @@ body {
 *,
 *:before,
 *:after {
-  box-sizing: inherit;
+  /* box-sizing: inherit; */
+  box-sizing: border-box;
 }
-
+/* 
 .App {
   width: 90%;
   max-width: 700px;
   margin: 2em auto;
-}
+} */
 p.lorem-text {
   text-align: justify;
 }
@@ -98,5 +99,5 @@ p.lorem-text {
 
 .scroll-lock {
   overflow: hidden;
-  margin-right: 17px;
+  /* margin-right: 17px; */
 }

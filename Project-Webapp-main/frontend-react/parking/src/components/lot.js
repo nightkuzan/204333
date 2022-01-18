@@ -30,11 +30,13 @@ import lot from "./css/lot.css";
 
 function Lot(props) {
     const txt = props.txt;
+    const onSubmit = props.onSubmit;
+    const showModal = props.showModal;
     const [num, setNum] = useState(0);
 
     return (
         <>
-            <div className="lot">
+            <div className="lot" onClick={showModal}>
                 
             </div>
         </>

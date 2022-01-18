@@ -54,17 +54,12 @@ import { Container } from './components/Containerf';
 
 // export default App;
 const App = () => {
-  const triggerText = 'Open form';
-  const onSubmit = (event) => {
-    event.preventDefault(event);
-    console.log(event.target.name.value);
-    console.log(event.target.email.value);
-  };
+  
   return (
     <div className="App">
       <Navbarparking />
-      <Container triggerText={triggerText} onSubmit={onSubmit} />
-      <Lot triggerText ={triggerText} onSubmit={onSubmit} />
+      <Container  />
+      {/* <Lot triggerText ={triggerText} onSubmit={onSubmit} /> */}
     </div>
   );
 };
