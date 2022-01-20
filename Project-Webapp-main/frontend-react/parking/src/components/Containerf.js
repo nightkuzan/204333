@@ -4,6 +4,7 @@ import TriggerButton from './TriggerButton';
 import Lot from './lot'
 import axios from 'axios';
 import Form from './forms';
+import containercss from './css/containerf.css';
 const SERVER_URL = 'http://localhost:5500';
 
 
@@ -47,6 +48,7 @@ export class Container extends Component {
     return () => {
       this.setState({ isShown: true,  });
       this.setState({parkinglot: pl});
+      
       console.log(this.state.parkinglot);
       console.log(pl);
         // this.closeButton.focus();

@@ -40,9 +40,13 @@ function Lot(props) {
 
     return (
         <>
+        <div className="alllot">
+
             <div className="lot" onClick={showModal(props.parkinglot)}>
-                
+               <h3>F1</h3>
             </div>
+        </div>
+
         </>
     )
 }

@@ -4,11 +4,12 @@ import Nav from "react-bootstrap/Navbar";
 import NavLink from "react-bootstrap/NavLink";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import navbarcss from "./css/navbar.css";
+import navlogo from "./logo.png";
 function Navbarparking() {
   return (
     <Navbar bg="light" expand="lg">
       <Container fluid>
-        <Navbar.Brand href="#">Navbar scroll</Navbar.Brand>
+        <Navbar.Brand href="#"><img src={navlogo} /></Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
