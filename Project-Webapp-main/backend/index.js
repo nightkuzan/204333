@@ -40,7 +40,13 @@ app.get('/carsparking', (req, res) => {
                     "cartype": result[i].cartype
                 };
             }
-            res.send(parkinglot_obj);
+            let parkinglot_arr = [];
+            for (let key in parkinglot_obj) {
+                let val = parkinglot_obj[key];
+                val.parkinglot = key;               
+                parkinglot_arr.push(val);
+            }
+            res.send(parkinglot_arr);
         }
     })
 });
@@ -50,6 +56,7 @@ app.post('/create', (req, res) => {
     let email = req.body.email;
     let telephone = req.body.telephone;
     let cartype = req.body.cartype;
+    let parkinglot = req.body.parkinglot;
     //let booking_status = req.booking_status;
     if (name == "" || email == "" || telephone == "" || cartype == "") {
         res.send({
@@ -57,8 +64,8 @@ app.post('/create', (req, res) => {
             message: 'You have some fields unfilled.',
         });
     }
-    db.query("INSERT INTO carsparking (fullName, email,  telephone, type) VALUES(?,?,?,?)", 
-    [name,email,  telephone, cartype],
+    db.query("INSERT INTO carsparking (fullName, email,  telephone, type, parkinglot) VALUES(?,?,?,?,?)", 
+    [name,email,  telephone, cartype, parkinglot],
     (err, result) => {
         if(err){
             console.log(err)

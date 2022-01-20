@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { Modal } from './Modal';
 import TriggerButton from './TriggerButton';
 import Lot from './lot'
@@ -6,9 +6,12 @@ import axios from 'axios';
 import Form from './forms';
 const SERVER_URL = 'http://localhost:5500';
 
+
 export class Container extends Component {
-  state = { isShown: false, completed: false };
+  state = { isShown: false, completed: false, parkinglotState: [], parkinglot: '' }; 
   triggerText = 'Open form';
+
+  LotContext = React.createContext(this.showModal);
 
   submitResponseHandler =(response) => {
     console.log(response);
@@ -27,6 +30,7 @@ export class Container extends Component {
       email: event.target.email.value,
       telephone: event.target.telephone.value,
       cartype: event.target.cartype.value,
+      parkinglot: event.target.parkinglot.value,
     })
     .then(this.submitResponseHandler)
     .catch(function (error) {
@@ -36,13 +40,19 @@ export class Container extends Component {
     console.log(event.target.email.value);
     console.log(event.target.telephone.value);
     console.log(event.target.cartype.value);
+    console.log(event.target.parkinglot.value);
     
   };
-  showModal = () => {
-    this.setState({ isShown: true }, () => {
-      this.closeButton.focus();
-    });
-    this.toggleScrollLock();
+  showModal = (pl) => {
+    return () => {
+      this.setState({ isShown: true,  });
+      this.setState({parkinglot: pl});
+      console.log(this.state.parkinglot);
+      console.log(pl);
+        // this.closeButton.focus();
+      this.toggleScrollLock();
+    };
+        
   };
   closeModal = () => {
     this.setState({ isShown: false });
@@ -62,14 +72,29 @@ export class Container extends Component {
     document.querySelector('html').classList.toggle('scroll-lock');
   };
 
-  addCarForm = <Form onSubmit={this.onSubmit} />;
+  addCarForm = <Form onSubmit={this.onSubmit} parkinglot={this.state.parkinglot}/>;
+  parkinglotState = [];
+
+  async componentDidMount() {
+    const url = "http://127.0.0.1:5500/carsparking";
+    const response = await fetch(url);
+    const data = await response.json();
+    this.setState({ parkinglotState: data });
+    console.log(data);
+  }
 
   render() {
     return (
       <React.Fragment>
-        
-        <Lot txt ={this.triggerText} onSubmit={this.onSubmit} showModal={this.showModal}/>
-        <Lot txt ={this.triggerText} onSubmit={this.onSubmit} showModal={this.showModal}/>
+        {
+        this.state.parkinglotState.map(lot => (
+          <Lot key={lot.parkinglot} parkinglot={lot.parkinglot} available={lot.available} cartype={lot.cartype} showModal={this.showModal} />
+        ))
+        }
+          
+
+        {/* <Lot txt ={this.triggerText} onSubmit={this.onSubmit} showModal={this.showModal}/>
+        <Lot txt ={this.triggerText} onSubmit={this.onSubmit} showModal={this.showModal}/> */}
         {this.state.isShown ? (
           <Modal
             // onSubmit={this.onSubmit}

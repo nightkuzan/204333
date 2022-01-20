@@ -1,8 +1,9 @@
 import React from 'react';
 
-export const Form = ({ onSubmit }) => {
+export const Form = ({ onSubmit, parkinglot }) => {
   return (
     <form onSubmit={onSubmit} method="POST">
+      <input type="hidden" name="parkinglot" value={parkinglot} />
       <div className="form-group">
         <label htmlFor="name">Name</label>
         <input required className="form-control" id="name" />
