@@ -5,6 +5,7 @@ import Lot from './lot'
 import axios from 'axios';
 import Form from './forms';
 import containercss from './css/containerf.css';
+import Open from './open';
 const SERVER_URL = 'http://localhost:5500';
 
 
@@ -31,7 +32,7 @@ export class Container extends Component {
       email: event.target.email.value,
       telephone: event.target.telephone.value,
       cartype: event.target.cartype.value,
-      parkinglot: event.target.parkinglot.value,
+      parkinglot: this.state.parkinglot,
     })
     .then(this.submitResponseHandler)
     .catch(function (error) {
@@ -41,7 +42,7 @@ export class Container extends Component {
     console.log(event.target.email.value);
     console.log(event.target.telephone.value);
     console.log(event.target.cartype.value);
-    console.log(event.target.parkinglot.value);
+    console.log(this.state.parkinglot);
     
   };
   showModal = (pl) => {
@@ -52,13 +53,13 @@ export class Container extends Component {
       console.log(this.state.parkinglot);
       console.log(pl);
         // this.closeButton.focus();
-      this.toggleScrollLock();
+      // this.toggleScrollLock();
     };
         
   };
   closeModal = () => {
     this.setState({ isShown: false });
-    this.toggleScrollLock();
+    //this.toggleScrollLock();
   };
   onKeyDown = (event) => {
     if (event.keyCode === 27) {
@@ -85,15 +86,28 @@ export class Container extends Component {
     console.log(data);
   }
 
+ 
+
   render() {
     return (
       <React.Fragment>
         {
         this.state.parkinglotState.map(lot => (
-          <Lot key={lot.parkinglot} parkinglot={lot.parkinglot} available={lot.available} cartype={lot.cartype} showModal={this.showModal} />
+          <>
+          <Lot 
+          key={lot.parkinglot} 
+          parkinglot={lot.parkinglot} 
+          available={lot.available} 
+          cartype={lot.cartype} 
+          showModal={this.showModal}
+           />
+          
+        </>
+
         ))
         }
-          
+        
+
 
         {/* <Lot txt ={this.triggerText} onSubmit={this.onSubmit} showModal={this.showModal}/>
         <Lot txt ={this.triggerText} onSubmit={this.onSubmit} showModal={this.showModal}/> */}
@@ -109,13 +123,17 @@ export class Container extends Component {
           />
         ) : null}
         {this.state.completed && (
-          <Modal
+          <><Modal
             modalRef={(n) => (this.modal = n)}
             buttonRef={(n) => (this.closeButton = n)}
             closeModal={this.closeModal}
             onKeyDown={this.onKeyDown}
             onClickOutside={this.onClickOutside}
             modalContent={<h4>Booking completed</h4>} />
+           
+            </>
+            
+
         )}
       </React.Fragment>
     );

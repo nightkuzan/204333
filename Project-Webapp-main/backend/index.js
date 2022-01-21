@@ -18,7 +18,7 @@ const db = mysql.createConnection({
 })
 
 app.get('/carsparking', (req, res) => {
-    const FLOOR = 1;
+    const FLOOR = 2;
     const LOT_NO = 8;
     let parkinglot_obj = {}
     for (let i = 0; i < FLOOR; i++) 
@@ -26,7 +26,7 @@ app.get('/carsparking', (req, res) => {
             parkinglot_obj[`P${j+1}F${i+1}`] = {
                 "available": true,
                 "cartype": null
-            };        
+            };
 
     
     db.query("SELECT * FROM carsparking", (err, result) => {
