@@ -18,7 +18,7 @@ const db = mysql.createConnection({
 })
 
 app.get('/carsparking', (req, res) => {
-    const FLOOR = 2;
+    const FLOOR = 1;
     const LOT_NO = 8;
     let parkinglot_obj = {}
     for (let i = 0; i < FLOOR; i++) 
@@ -57,6 +57,7 @@ app.post('/create', (req, res) => {
     let telephone = req.body.telephone;
     let cartype = req.body.cartype;
     let parkinglot = req.body.parkinglot;
+    let active = '1';
     //let booking_status = req.booking_status;
     if (name == "" || email == "" || telephone == "" || cartype == "") {
         res.send({
@@ -64,8 +65,8 @@ app.post('/create', (req, res) => {
             message: 'You have some fields unfilled.',
         });
     }
-    db.query("INSERT INTO carsparking (fullName, email,  telephone, type, parkinglot) VALUES(?,?,?,?,?)", 
-    [name,email,  telephone, cartype, parkinglot],
+    db.query("INSERT INTO carsparking (fullName, email,  telephone, type, parkinglot, active) VALUES(?,?,?,?,?,?)", 
+    [name,email,  telephone, cartype, parkinglot, active],
     (err, result) => {
         if(err){
             console.log(err)

@@ -5,12 +5,11 @@ import Lot from './lot'
 import axios from 'axios';
 import Form from './forms';
 import containercss from './css/containerf.css';
-import Open from './open';
 const SERVER_URL = 'http://localhost:5500';
 
 
 export class Container extends Component {
-  state = { isShown: false, completed: false, parkinglotState: [], parkinglot: '' }; 
+  state = { isShown: false, completed: false, parkinglotState: [], parkinglot: '', onFormSubmitted: () => {} }; 
   triggerText = 'Open form';
 
   LotContext = React.createContext(this.showModal);
@@ -19,6 +18,7 @@ export class Container extends Component {
     console.log(response);
     if(response.data.status === 'completed') {
     this.setState({isShown: false, completed: true});
+    this.state.onFormSubmitted();
     window.setTimeout(() => this.setState({completed: false}), 2000);
     }
     else{
@@ -45,11 +45,11 @@ export class Container extends Component {
     console.log(this.state.parkinglot);
     
   };
-  showModal = (pl) => {
+  showModal = (pl,onFormSubmitted) => {
     return () => {
       this.setState({ isShown: true,  });
       this.setState({parkinglot: pl});
-      
+      this.setState({onFormSubmitted: onFormSubmitted});
       console.log(this.state.parkinglot);
       console.log(pl);
         // this.closeButton.focus();
@@ -91,8 +91,9 @@ export class Container extends Component {
   render() {
     return (
       <React.Fragment>
+        <div className="container-lot">
         {
-        this.state.parkinglotState.map(lot => (
+          this.state.parkinglotState.map(lot => (
           <>
           <Lot 
           key={lot.parkinglot} 
@@ -101,13 +102,12 @@ export class Container extends Component {
           cartype={lot.cartype} 
           showModal={this.showModal}
            />
-          
         </>
-
         ))
         }
-        
 
+        
+        </div>
 
         {/* <Lot txt ={this.triggerText} onSubmit={this.onSubmit} showModal={this.showModal}/>
         <Lot txt ={this.triggerText} onSubmit={this.onSubmit} showModal={this.showModal}/> */}
@@ -132,8 +132,6 @@ export class Container extends Component {
             modalContent={<h4>Booking completed</h4>} />
            
             </>
-            
-
         )}
       </React.Fragment>
     );
