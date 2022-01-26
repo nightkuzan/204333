@@ -31,7 +31,7 @@ export const Form = ({ onSubmit, parkinglot }) => {
             <select required className="form-control" id="cartype">
                 <option value="Sedan">Sedan</option>
                 <option value="Pickup">Pickup</option>
-                <option value="CRV">CRV</option>
+                <option value="CRV">SUV</option>
                 <option value="Van">Van</option>
                 <option value="Sports car">Sports Car</option>
                 <option value="Super car">Super Car</option>

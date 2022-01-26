@@ -7,7 +7,7 @@
     transition: .3s ease-in-out;
     text-align: center;
 }
-.lot:hover{
+.lot.lot-notactive:hover{
     cursor: grab;
     background-color: rgba(255,255,255,0.1);
 
@@ -16,4 +16,67 @@
 .lot-name{
     color: yellow;
 
+}
+
+/* .btn{
+    background-color: yellow;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: .3s ease-in-out;
+} */
+
+.btn-open{
+    background-color: green;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: .3s ease-in-out;
+}
+
+.btn-closed{
+    background-color: red;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: .3s ease-in-out;
+}
+
+.btn-cancel{
+    background-color: yellow;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: .3s ease-in-out;
+}
+h1{
+    color: white;
 }

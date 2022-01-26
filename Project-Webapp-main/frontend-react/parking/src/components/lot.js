@@ -15,22 +15,35 @@ function Lot(props) {
     const [isOwner, setIsOwner] = useState(false);
     const [opened, setOpened] = useState(false);
     const [closed, setClosed] = useState(false);
+    const [cancel, setCancel] = useState(false);
     const onFormSubmitted = async ()=> {
        setIsOwner(true);
        setActive(false); 
     }
-    const [timer, setTimer] = useState(900);
-    const timeInterval = useRef();
+    const [timer, setTimer] = useState(10);
+    const timeInterval = useRef(null);
     useEffect(() => {
-        timeInterval.current = window.setInterval(() => {
-            if (isOwner && !active){
-            if (timer > 0)
+        if (isOwner && !active && timeInterval.current === null) {
+            timeInterval.current = window.setInterval(() => {
                 setTimer(prevTimer => prevTimer - 1);
-            else
-                window.clearInterval(timeInterval.current);
-                }
-        }, 1000);
+            }, 1000);
+        }
     }, [isOwner,active]);
+    const cancelReservation = () => {
+        window.clearInterval(timeInterval.current);
+            setActive(true);
+            setTimer(900);
+            setIsOwner(false);
+            setOpened(false);
+            setClosed(false);
+    }
+    useEffect(() => {
+        if (timer <= 0) {
+            cancelReservation();
+            
+            timeInterval.current = null;
+        }
+    }, [timer]);
 
     useEffect(() => {
         if (opened &&  closed){
@@ -40,15 +53,15 @@ function Lot(props) {
 
     return (
         <>
-            <div className="lot" onClick={showModal(props.parkinglot,onFormSubmitted)}>
-               <h3 className="lot-name">{props.parkinglot}</h3>
+            <div className={`lot ${active && 'lot-notactive'}`} onClick={active && showModal(props.parkinglot,onFormSubmitted)}>
+               <div className="time"><h3 className="lot-name">{props.parkinglot}</h3></div>
                 {
                     (isOwner && !active) && (
                         <>
                        {(opened && closed) ?<img src={car}></img> :( <Time timer={timer} />  )}
-                        <button onClick={setOpened}>Open</button>
-                        <button onClick={setClosed}>Close</button>
-                        <button  >Cancel</button>
+                        <button className="btn btn-open"onClick={setOpened}>Open</button>
+                        <button className="btn btn-closed"onClick={setClosed}>Close</button>
+                        <button className="btn btn-cancel" onClick={cancelReservation}>Cancel</button>
                         </>
                     )
                 }
