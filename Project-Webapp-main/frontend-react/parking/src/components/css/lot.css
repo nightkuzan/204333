@@ -80,3 +80,8 @@
 h1{
     color: white;
 }
+
+.lotcarimg img{
+    width: auto;
+    height: 150px;
+}

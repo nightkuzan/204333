@@ -2,7 +2,7 @@
 import React, { Component, useState, useContext ,useEffect,useRef} from "react";
 import lot from "./css/lot.css";
 import Container from "./Containerf";
-import car from "../../src/assets/img/cartest.jpg"
+import car from "../../src/assets/img/IMG_7321.PNG"
 import Time from "./time";
 
 function Lot(props) {
@@ -16,6 +16,7 @@ function Lot(props) {
     const [opened, setOpened] = useState(false);
     const [closed, setClosed] = useState(false);
     const [cancel, setCancel] = useState(false);
+    const [taken, setTaken] = useState(false);
     const onFormSubmitted = async ()=> {
        setIsOwner(true);
        setActive(false); 
@@ -32,10 +33,11 @@ function Lot(props) {
     const cancelReservation = () => {
         window.clearInterval(timeInterval.current);
             setActive(true);
-            setTimer(900);
             setIsOwner(false);
             setOpened(false);
             setClosed(false);
+            setTaken(false);
+            setTimer(900);
     }
     useEffect(() => {
         if (timer <= 0) {
@@ -46,8 +48,19 @@ function Lot(props) {
     }, [timer]);
 
     useEffect(() => {
-        if (opened &&  closed){
-            window.clearInterval(timeInterval.current);
+        if (!taken){
+            if (opened &&  closed){
+                window.clearInterval(timeInterval.current);
+                setTaken(true);
+                setClosed(false);
+                setOpened(false);
+            }
+        
+        }else{
+            if (opened &&  closed){
+
+                cancelReservation();
+            }
         }
     },[opened,closed]);
 
@@ -58,14 +71,13 @@ function Lot(props) {
                 {
                     (isOwner && !active) && (
                         <>
-                       {(opened && closed) ?<img src={car}></img> :( <Time timer={timer} />  )}
+                       {(taken) ?<div className="lotcarimg"><img className="cars" src={car}></img></div> :( <Time timer={timer} />  )}
                         <button className="btn btn-open"onClick={setOpened}>Open</button>
                         <button className="btn btn-closed"onClick={setClosed}>Close</button>
-                        <button className="btn btn-cancel" onClick={cancelReservation}>Cancel</button>
+                        {(!taken)&&<button className="btn btn-cancel" onClick={cancelReservation}>Cancel</button>}
                         </>
                     )
                 }
-
             </div>
 
         </>
