@@ -4,6 +4,7 @@ import lot from "./css/lot.css";
 import Container from "./Containerf";
 import car from "../../src/assets/img/IMG_7321.PNG"
 import Time from "./time";
+const SERVER_URL = 'http://localhost:5500';
 
 function Lot(props) {
 
@@ -11,15 +12,17 @@ function Lot(props) {
     const onSubmit = props.onSubmit;
     const showModal = props.showModal;
     const [num, setNum] = useState(0);
-    const [active, setActive] = useState(true);
+    const [active, setActive] = useState(props.available);
     const [isOwner, setIsOwner] = useState(false);
     const [opened, setOpened] = useState(false);
     const [closed, setClosed] = useState(false);
     const [cancel, setCancel] = useState(false);
     const [taken, setTaken] = useState(false);
-    const onFormSubmitted = async ()=> {
-       setIsOwner(true);
+    const parkingId = useRef(-1);
+    const onFormSubmitted = async (id, isOwner=true) => {
+       setIsOwner(isOwner);
        setActive(false); 
+       parkingId.current = id;
     }
     const [timer, setTimer] = useState(10);
     const timeInterval = useRef(null);
@@ -38,6 +41,8 @@ function Lot(props) {
             setClosed(false);
             setTaken(false);
             setTimer(900);
+            timeInterval.current = null;
+            props.sendCancelRequest(parkingId.current);
     }
     useEffect(() => {
         if (timer <= 0) {
@@ -54,11 +59,17 @@ function Lot(props) {
                 setTaken(true);
                 setClosed(false);
                 setOpened(false);
+                
+                (async() => {
+                const url = `${SERVER_URL}/reserveconfirm/${parkingId.current}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                console.log(data);
+                })();
             }
         
         }else{
             if (opened &&  closed){
-
                 cancelReservation();
             }
         }
@@ -72,9 +83,16 @@ function Lot(props) {
                     (isOwner && !active) && (
                         <>
                        {(taken) ?<div className="lotcarimg"><img className="cars" src={car}></img></div> :( <Time timer={timer} />  )}
-                        <button className="btn btn-open"onClick={setOpened}>Open</button>
-                        <button className="btn btn-closed"onClick={setClosed}>Close</button>
+                        {(!opened)? <button className="btn btn-open"onClick={setOpened}>Open</button>:
+                        <button className="btn btn-closed"onClick={() => setClosed(opened)}>Close</button>}
                         {(!taken)&&<button className="btn btn-cancel" onClick={cancelReservation}>Cancel</button>}
+                        </>
+                    )
+                }
+                {
+                    (!isOwner && !active) && (
+                        <> 
+                        <div className="lotcarimg"><img className="cars" src={car}></img></div>
                         </>
                     )
                 }

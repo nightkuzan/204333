@@ -18,7 +18,7 @@ export class Container extends Component {
     console.log(response);
     if(response.data.status === 'completed') {
     this.setState({isShown: false, completed: true});
-    this.state.onFormSubmitted();
+    this.state.onFormSubmitted(response.data.id, true);
     window.setTimeout(() => this.setState({completed: false}), 2000);
     }
     else{
@@ -52,14 +52,11 @@ export class Container extends Component {
       this.setState({onFormSubmitted: onFormSubmitted});
       console.log(this.state.parkinglot);
       console.log(pl);
-        // this.closeButton.focus();
-      // this.toggleScrollLock();
     };
         
   };
   closeModal = () => {
     this.setState({ isShown: false });
-    //this.toggleScrollLock();
   };
   onKeyDown = (event) => {
     if (event.keyCode === 27) {
@@ -78,12 +75,26 @@ export class Container extends Component {
   addCarForm = <Form onSubmit={this.onSubmit} parkinglot={this.state.parkinglot}/>;
   parkinglotState = [];
 
-  async componentDidMount() {
-    const url = "http://127.0.0.1:5500/carsparking";
+  async keepUpToDate() {
+    const url = `${SERVER_URL}/carsparking`;
     const response = await fetch(url);
     const data = await response.json();
     this.setState({ parkinglotState: data });
     console.log(data);
+  }
+
+  sendCancelRequest = async (id) => {
+    const url = `${SERVER_URL}/cancel/${id}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log(data);
+  }
+
+
+  async componentDidMount() {
+    this.keepUpToDate = this.keepUpToDate.bind(this);
+    this.keepUpToDate();
+    this.keepUpToDateInterval = window.setInterval(this.keepUpToDate, 5000);
   }
 
  
@@ -101,6 +112,8 @@ export class Container extends Component {
           available={lot.available} 
           cartype={lot.cartype} 
           showModal={this.showModal}
+          sendCancelRequest={this.sendCancelRequest}
+          timer = {lot.time}
            />
         </>
         ))
@@ -109,11 +122,8 @@ export class Container extends Component {
         
         </div>
 
-        {/* <Lot txt ={this.triggerText} onSubmit={this.onSubmit} showModal={this.showModal}/>
-        <Lot txt ={this.triggerText} onSubmit={this.onSubmit} showModal={this.showModal}/> */}
         {this.state.isShown ? (
           <Modal
-            // onSubmit={this.onSubmit}
             modalRef={(n) => (this.modal = n)}
             buttonRef={(n) => (this.closeButton = n)}
             closeModal={this.closeModal}

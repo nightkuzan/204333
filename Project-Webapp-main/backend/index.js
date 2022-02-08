@@ -25,19 +25,23 @@ app.get('/carsparking', (req, res) => {
         for (let j = 0; j < LOT_NO; j++)
             parkinglot_obj[`P${j+1}F${i+1}`] = {
                 "available": true,
-                "cartype": null
+                "cartype": null,
+                "time": null,
+                "taken":null
             };
 
     
-    db.query("SELECT * FROM carsparking", (err, result) => {
+    db.query("SELECT * FROM carsparking WHERE created_at > CURRENT_TIMESTAMP() - 900", (err, result) => {
         if(err){
             console.log(err)
         } else{
             // res.send(result);
             for (let i = 0; i < result.length; i++) {
                 parkinglot_obj[result[i].parkinglot] = {
-                    "available": false,
-                    "cartype": result[i].cartype
+                    "available":(result[i].active?  false : true),
+                    "cartype":(result[i].active? result[i].type : null),
+                    "time":(result[i].active? result[i].created_at : null),
+                    "taken":(result[i].active? result[i].taken : null)
                 };
             }
             let parkinglot_arr = [];
@@ -82,6 +86,7 @@ app.post('/create', (req, res) => {
             res.send({
                 status: 'completed',
                 message: 'Your booking completed.',
+                id: result.insertId,
             });
         }
     });
@@ -106,6 +111,10 @@ app.put('/api/users/update', (req, res) => {
     });
 });
 
+app.put('/freeparkinglot', (req, res) => {
+    
+});
+
 app.delete('/api/users/delete/:id', (req, res) => {
     let id = req.params.id;
     let carType = req.body.carType;
@@ -123,3 +132,30 @@ app.delete('/api/users/delete/:id', (req, res) => {
 app.listen('5500', () => {
     console.log("Server is running on port 5500");
 })
+
+app.get('/cancel/:id', (req, res) => {
+    let id = req.params.id;
+
+    db.query("UPDATE carsparking SET active = 0  WHERE id = ?", id
+    ,(err, result) => {
+        if(err){
+            console.log(err)
+        } else{
+            res.send(result);
+        }
+    });
+});
+
+app.get('/reserveconfirm/:id', (req, res) => {
+    let id = req.params.id;
+
+    db.query("UPDATE carsparking SET taken = 1  WHERE id = ?", id
+    ,(err, result) => {
+        if(err){
+            console.log(err)
+        } else{
+            res.send(result);
+        }
+    });
+
+});
