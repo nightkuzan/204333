@@ -5,6 +5,8 @@ import Lot from './lot'
 import axios from 'axios';
 import Form from './forms';
 import containercss from './css/containerf.css';
+import {Link} from "react-router-dom";
+
 const SERVER_URL = 'http://localhost:5500';
 
 
@@ -80,21 +82,22 @@ export class Container extends Component {
     const response = await fetch(url);
     const data = await response.json();
     this.setState({ parkinglotState: data });
-    console.log(data);
+    // console.log('data: ' + JSON.stringify(data));
+    // console.log('state: ' + JSON.stringify(this.state.parkinglotState));
   }
 
   sendCancelRequest = async (id) => {
     const url = `${SERVER_URL}/cancel/${id}`;
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
   }
 
 
   async componentDidMount() {
     this.keepUpToDate = this.keepUpToDate.bind(this);
     this.keepUpToDate();
-    this.keepUpToDateInterval = window.setInterval(this.keepUpToDate, 5000);
+    this.keepUpToDateInterval = window.setInterval(this.keepUpToDate, 1000);
   }
 
  
@@ -102,24 +105,39 @@ export class Container extends Component {
   render() {
     return (
       <React.Fragment>
+        <div className="container-fluid">
+        <div className="navbar">
+          <Link to="/">Car Parking</Link>
+            <div className="dropdown">
+              <button className="dropbtn">Select Floor
+                {/* <i className="fa fa-caret-down"></i> */}
+              </button>
+              <div className="dropdown-content">
+                <Link to="/" className="nav-link">Floor 1</Link>
+              </div>
+            </div>
+          </div>
+              
         <div className="container-lot">
         {
           this.state.parkinglotState.map(lot => (
           <>
           <Lot 
-          key={lot.parkinglot} 
-          parkinglot={lot.parkinglot} 
-          available={lot.available} 
-          cartype={lot.cartype} 
-          showModal={this.showModal}
-          sendCancelRequest={this.sendCancelRequest}
-          timer = {lot.time}
+            key={lot.parkinglot} 
+            parkinglot={lot.parkinglot} 
+            available={lot.available} 
+            cartype={lot.cartype} 
+            createdAt={lot.time}
+            taken={lot.taken}
+            showModal={this.showModal}
+            sendCancelRequest={this.sendCancelRequest}
+            timer = {lot.time}
            />
         </>
         ))
         }
 
-        
+        </div>
         </div>
 
         {this.state.isShown ? (
@@ -133,13 +151,15 @@ export class Container extends Component {
           />
         ) : null}
         {this.state.completed && (
-          <><Modal
+          <>
+          <Modal
             modalRef={(n) => (this.modal = n)}
             buttonRef={(n) => (this.closeButton = n)}
             closeModal={this.closeModal}
             onKeyDown={this.onKeyDown}
             onClickOutside={this.onClickOutside}
-            modalContent={<h4>Booking completed</h4>} />
+            modalContent={<h4>Booking completed</h4>}
+          />
            
             </>
         )}

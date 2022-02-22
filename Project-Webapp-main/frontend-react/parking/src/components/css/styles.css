@@ -1,0 +1,54 @@
+*{
+    scroll-behavior: smooth;
+    font-family: 'Montserrat', 'Kanit', 'Ubuntu', sans-serif;
+}
+ .BGCAR{
+        background: url(../../assets/img/bglinear.jpeg)  ;
+     
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+        
+}
+.navbar{
+    margin: 0;
+    padding : 0;
+    width: 100%;
+}
+
+.masthead{
+    margin-top: 20px;
+}
+.about-section{
+    margin-top: 4px;
+}
+.container{
+    padding:4.4px;
+}
+.text123{
+    font-weight: bold;
+}
+.text12{
+    color:black;
+}
+.btnset{
+
+    border-radius: 40px;
+    border: none;
+    background-color: white;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 4px 2px;
+    cursor: pointer;
+
+}
+
+.btnset:hover{
+    background-color: yellow;
+    color: black;
+}
