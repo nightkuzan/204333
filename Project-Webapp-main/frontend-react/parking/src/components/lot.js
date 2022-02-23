@@ -12,13 +12,11 @@ import Time from "./time";
 const SERVER_URL = 'http://localhost:5500';
 
 const carImages = {
-    'sedan': sedan,'supercar':supercar,'van':van,'suv':suv,'pickup':pickup,'sportcar':sportcar
+    'Sedan': sedan,'Super car':supercar,'Van':van,'CRV':suv,'Pickup':pickup,'Sport car':sportcar
 }
 
 function Lot(props) {
 
-    const txt = props.txt;
-    const onSubmit = props.onSubmit;
     const showModal = props.showModal;
     const timestamp = props.createdAt;
     const [active, setActive] = useState(props.available);
@@ -29,35 +27,38 @@ function Lot(props) {
     const [taken, setTaken] = useState(props.taken === 1);
     const parkingId = useRef(-1);
     
-    const prevAvailable = useRef(active);
-    const prevTaken = useRef(taken);
-
     const onFormSubmitted = async (id, isOwner=true) => {
        setIsOwner(isOwner);
        setActive(false); 
        parkingId.current = id;
     }
+    
+    const prevAvailable = useRef(active);
+    const prevTaken = useRef(taken);
+
+    useEffect(() => {
+        if (!isOwner) {
+            if (!props.taken)
+                cancelReservation();
+            setTaken(props.taken);
+        }
+    }, [props.taken]);
+
+    useEffect(() => {
+        if (!isOwner)
+            setActive(props.available);
+    }, [props.available]);
+    
     // useEffect(() => {
-    //     if (!isOwner) {
-    //         if (!props.taken && prevAvailable.current && prevTaken.current)
-    //             cancelReservation();
-            
-    //         if (prevAvailable.current !== props.active) {
-    //             setActive(props.active);
-    //             prevAvailable.current = props.active;
-    //         }
-    //         if (prevTaken.current !== props.taken) {
-    //             setTaken(props.taken);
-    //             prevTaken.current = props.taken;
-    //         }
-    //     }
-    // }, [props.available, props.taken]);
+    //     if (!isOwner) setActive(props.available);
+    // }, [props.available]);
+
     const [timer, setTimer] = useState(900);
     const timeInterval = useRef(null);
     useEffect(() => {
         if (isOwner && !active && timeInterval.current === null) {
             timeInterval.current = window.setInterval(() => {
-                setTimer(prevTimer => prevTimer - 1);
+                setTimer(prevTimer => { console.log(prevTimer-1); return prevTimer - 1; });
             }, 1000);
         } else if (!isOwner && !active && timeInterval.current === null) {
             // "2022-02-22T16:33:06.000Z"
@@ -66,7 +67,7 @@ function Lot(props) {
             setTimer(900 - Math.floor((new Date() - date) / 1000));
 
             timeInterval.current = window.setInterval(() => {
-                setTimer(prevTimer => prevTimer - 1);
+                setTimer(prevTimer => { console.log(prevTimer-1); return prevTimer - 1; });
             }, 1000);
 
             // timeInterval.current = window.setInterval(() => {
@@ -75,16 +76,17 @@ function Lot(props) {
         }
     }, [isOwner,active]);
     const cancelReservation = () => {
-        window.clearInterval(timeInterval.current);
-            setActive(true);
-            setIsOwner(false);
-            setOpened(false);
-            setClosed(false);
-            setTaken(false);
-            setTimer(900);
-            timeInterval.current = null;
-            if (parkingId.current !== null)
-                props.sendCancelRequest(parkingId.current);
+        if (timeInterval.current !== null)
+            window.clearInterval(timeInterval.current);
+        setActive(true);
+        setIsOwner(false);
+        setOpened(false);
+        setClosed(false);
+        setTaken(false);
+        setTimer(900);
+        timeInterval.current = null;
+        if (parkingId.current !== null)
+            props.sendCancelRequest(parkingId.current);
     }
     useEffect(() => {
         if (timer <= 0) {
@@ -119,12 +121,12 @@ function Lot(props) {
 
     return (
         <>
-            <div className={`lot ${active && 'lot-notactive'}`} onClick={active && showModal(props.parkinglot,onFormSubmitted)}>
+            <div className={`lot ${active ? 'lot-notactive' : ''}`} onClick={active && showModal(props.parkinglot,onFormSubmitted)}>
                <div className="time"><h3 className="lot-name">{props.parkinglot}</h3></div>
                 {
                     (isOwner && !active) && (
                         <>
-                       {(taken) ?<div className="lotcarimg"><img className="supercar" src={carImages[props.cartype.toLowerCase()]}></img></div> :( <Time timer={timer} />  )}
+                       {(taken) ?<div className="lotcarimg"><img className="supercar" src={carImages[props.cartype]}></img></div> :( <Time timer={timer} />  )}
                         {(!opened)? <button className="btn btn-open"onClick={setOpened}>Open</button>:
                         <button className="btn btn-closed"onClick={() => setClosed(opened)}>Close</button>}
                         {(!taken)&&<button className="btn btn-cancel" onClick={cancelReservation}>Cancel</button>}
@@ -134,8 +136,7 @@ function Lot(props) {
                 {
                     (!isOwner && !active) && (
                         <> 
-                        {taken && <div className="lotcarimg"><img className="cars" src={carImages[props.cartype.toLowerCase()]}></img></div>}
-                        {!taken && <Time timer={timer} />}
+                        {taken ? <div className="lotcarimg"><img className="cars" src={carImages[props.cartype]}></img></div>:<Time timer={timer} /> }
                         </>
                     )
                 }

@@ -27,7 +27,7 @@ function HomePage(){
                     <h1 className="mx-auto my-0 text-uppercase text-black text123 ">car park</h1>
                     <h2 className=" mx-auto mt-2 mb-5 text12">เปิดมุมมองแปลกใหม่สำหรับการจอดรถ<br></br> พบกับประสบการณ์ใหม่ที่คุณไม่เคยเจอ
                     </h2>
-                    <button className="btnset" ><Link  to="/parkingcar">Booking</Link></button>
+                    <button className="btnset" ><Link  to="/parkingcar_floor1">Booking</Link></button>
 
                 </div>
             </div>

@@ -1,5 +1,6 @@
 import logo from "./logo.svg";
 import "./../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import bootstrap from 'bootstrap';
 import "./App.css";
 import React, { Component, useState, useRef } from "react";
 import Navbarparking from "./components/navbar";
@@ -18,7 +19,7 @@ function App() {
     <BrowserRouter>
     <Routes>
       <Route path="/" element={<HomePage/>} />
-      <Route path="/parkingcar" element={<Container/>} />
+      <Route path="/parkingcar_floor1" element={<Container/>} />
     </Routes>
     </BrowserRouter>
     </div>

@@ -21,7 +21,7 @@
   }
   
   /* Links inside the navbar */
-  .navbar a {
+  .navbar a  {
     float: left;
     font-size: 16px;
     color: white;
@@ -82,3 +82,8 @@
   .dropdown:hover .dropdown-content {
     display: block;
   }
+  
+  a.dropdown-item {
+      color: black;
+  }
+

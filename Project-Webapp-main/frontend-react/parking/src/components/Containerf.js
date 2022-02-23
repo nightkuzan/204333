@@ -4,6 +4,7 @@ import TriggerButton from './TriggerButton';
 import Lot from './lot'
 import axios from 'axios';
 import Form from './forms';
+import Navbarparking from './navbar';
 import containercss from './css/containerf.css';
 import {Link} from "react-router-dom";
 
@@ -11,6 +12,10 @@ const SERVER_URL = 'http://localhost:5500';
 
 
 export class Container extends Component {
+  constructor(props) {
+    super(props);
+    this.dropdownHandler = this.dropdownHandler.bind(this);
+  }
   state = { isShown: false, completed: false, parkinglotState: [], parkinglot: '', onFormSubmitted: () => {} }; 
   triggerText = 'Open form';
 
@@ -100,6 +105,13 @@ export class Container extends Component {
     this.keepUpToDateInterval = window.setInterval(this.keepUpToDate, 1000);
   }
 
+  dropdownHandler() {
+    // const currentStatus = this.dropdownMenu.style.display;
+    // if (currentStatus !== 'block')  // not shown
+    //   this.dropdownMenu.style.display = 'none';
+    // else
+    //   this.dropdownMenu.style.display = 'block';
+  }
  
 
   render() {
@@ -107,16 +119,18 @@ export class Container extends Component {
       <React.Fragment>
         <div className="container-fluid">
         <div className="navbar">
-          <Link to="/">Car Parking</Link>
-            <div className="dropdown">
-              <button className="dropbtn">Select Floor
-                {/* <i className="fa fa-caret-down"></i> */}
+          <Link to="/" className="navbar-brand">Car Parking</Link>
+            <div className="nav-item dropdown">
+              <button onClick={this.dropdownHandler} className="nav-item dropdown-toggle dropbtn" id="dropdown-floor" role="button" data-bs-toggle="dropdown" aria-expanded="false">Select Floor
+                <i className="fa fa-caret-down"></i>
               </button>
-              <div className="dropdown-content">
-                <Link to="/" className="nav-link">Floor 1</Link>
-              </div>
+              <ul className="dropdown-menu" aria-labelledby="dropdown-floor" ref={element => this.dropdownMenu = element}>
+                <li><Link to="/" className="dropdown-item">Floor 1</Link></li>
+                <li><Link to="/" className="dropdown-item">Floor 2</Link></li>
+              </ul>
             </div>
           </div>
+          {/* <Navbarparking/> */}
               
         <div className="container-lot">
         {
