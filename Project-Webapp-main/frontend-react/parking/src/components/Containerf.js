@@ -45,11 +45,11 @@ export class Container extends Component {
     .catch(function (error) {
       console.log(error);
     });
-    console.log(event.target.name.value);
-    console.log(event.target.email.value);
-    console.log(event.target.telephone.value);
-    console.log(event.target.cartype.value);
-    console.log(this.state.parkinglot);
+    // console.log(event.target.name.value);
+    // console.log(event.target.email.value);
+    // console.log(event.target.telephone.value);
+    // console.log(event.target.cartype.value);
+    // console.log(this.state.parkinglot);
     
   };
   showModal = (pl,onFormSubmitted) => {
@@ -57,8 +57,8 @@ export class Container extends Component {
       this.setState({ isShown: true,  });
       this.setState({parkinglot: pl});
       this.setState({onFormSubmitted: onFormSubmitted});
-      console.log(this.state.parkinglot);
-      console.log(pl);
+      // console.log(this.state.parkinglot);
+      // console.log(pl);
     };
         
   };
@@ -93,8 +93,11 @@ export class Container extends Component {
 
   sendCancelRequest = async (id) => {
     const url = `${SERVER_URL}/cancel/${id}`;
-    const response = await fetch(url);
-    const data = await response.json();
+    fetch(url).catch(e => {
+      this.sendCancelRequest(id);
+      // console.log(e);
+    });
+    // const data = await response.json();
     // console.log(data);
   }
 
@@ -102,7 +105,7 @@ export class Container extends Component {
   async componentDidMount() {
     this.keepUpToDate = this.keepUpToDate.bind(this);
     this.keepUpToDate();
-    this.keepUpToDateInterval = window.setInterval(this.keepUpToDate, 1000);
+    this.keepUpToDateInterval = window.setInterval(this.keepUpToDate, 5000);
   }
 
   dropdownHandler() {

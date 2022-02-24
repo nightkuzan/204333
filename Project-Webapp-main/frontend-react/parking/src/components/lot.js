@@ -58,7 +58,7 @@ function Lot(props) {
     useEffect(() => {
         if (isOwner && !active && timeInterval.current === null) {
             timeInterval.current = window.setInterval(() => {
-                setTimer(prevTimer => { console.log(prevTimer-1); return prevTimer - 1; });
+                setTimer(prevTimer => {  return prevTimer - 1; });
             }, 1000);
         } else if (!isOwner && !active && timeInterval.current === null) {
             // "2022-02-22T16:33:06.000Z"
